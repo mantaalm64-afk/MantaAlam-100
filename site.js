@@ -1,11 +1,27 @@
 /* MantaAlam site script
    >>> After you create your Google Business Profile, paste your review link here: */
-var GOOGLE_REVIEW_URL = "";
+var GOOGLE_REVIEW_URL = "https://maps.app.goo.gl/S1Ef3LDHTmreBn1dA";
+// Show a "See on Google" link next to "See on Facebook" (set to false to hide it)
+var SHOW_GOOGLE_LINK = true;
 
 (function () {
   // Google review button: shown only when the link above is filled in
   var g = document.getElementById("gReview");
   if (g && GOOGLE_REVIEW_URL) { g.href = GOOGLE_REVIEW_URL; g.hidden = false; }
+
+  // "See on Google" link, in the page's language, next to the Facebook link
+  var fb = document.querySelector("#reviews .fb-link");
+  if (fb && GOOGLE_REVIEW_URL && SHOW_GOOGLE_LINK) {
+    var GTXT = { en: "See on Google", de: "Auf Google ansehen", it: "Vedi su Google",
+                 pl: "Zobacz w Google", cs: "Zobrazit na Google" };
+    var gl = document.createElement("a");
+    gl.className = "fb-link";
+    gl.href = GOOGLE_REVIEW_URL;
+    gl.target = "_blank"; gl.rel = "noopener";
+    gl.textContent = GTXT[document.documentElement.lang] || GTXT.en;
+    fb.style.marginRight = "18px";
+    fb.parentNode.insertBefore(gl, fb.nextSibling);
+  }
 
   // Language dropdown navigates to the page in that language
   var sel = document.getElementById("lang");
